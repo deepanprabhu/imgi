@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<form method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" id="fileToUpload" accept=".jpg,.jpeg" multiple>
+    <input type="submit" value="Upload Image" name="submit">
+    <script>
+    function validate(id)
+    {
+	   	var control = document.getElementById(id);
+		control.addEventListener("change", function(event) 
+		{
+		// When the control has changed, there are new files
+	    var files = control.files;
+	    for (var i = 0; i < files.length; i++) {
+	        alert("Filename: " + files[i].name);
+	        alert("Type: " + files[i].type);
+	        alert("Size: " + files[i].size + " bytes");
+
+
+	        var file = files[0];
+	        var reader = new FileReader();
+	        
+	        reader.onloadend = function(evt){
+	        	if(evt.target.readyState == FileReader.DONE){
+	        		alert(evt.target.result);
+	        	}
+
+	        	var u = new Uint8Array(evt.target.result);
+	        	var a = new Array(u.length);
+	        	var i = u.length;
+	        	while(i--)
+	        		a[i] = (u[i] < 16 ? '0' : '') + u[i].toString(16);
+	        	u = null;
+	        	console.log(a);
+
+	        }
+	        var blob = file.slice(0,5);
+	        //reader.readAsBinaryString(blob);
+	        reader.readAsArrayBuffer(blob);
+	     }
+		}, false);
+		return null;
+	}
+	    validate("fileToUpload");
+	</script>
+</form>
+
+</body>
+</html>
