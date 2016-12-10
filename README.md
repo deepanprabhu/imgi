@@ -1,5 +1,11 @@
-Usually, we upload files from the browser to the server using plain HTML Forms.
-Validation of the uploaded file (optionally) happens after complete upload to the server on the server side.
-This project is trying to do the validation on the client side using Javascript, before the upload actually happens.
-Since javascript on modern browsers are so power packed, validation on the client side avoids uploading 
-faulty files to the server, especially when the file is huge.
+# imgi - Client Side File Validation using Javascript !! 
+
+Imagine the scenario where your web application allows your user to upload an Image of 40MB, finally to
+find on your server side that its an INVALID image. We have lost bandwidth, server resources and time !
+
+What if you could do the validation on the client side, Today's javascript is already on steroids.
+
+It makes more sense to validate a file before uploading to the server. If an invalid file is supplied,
+we disable the upload and inform the user right away. So fast and simple.
+
+imgi, lets you do just that.
