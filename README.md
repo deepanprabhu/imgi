@@ -6,6 +6,6 @@ find on your server side that its an INVALID image. We have lost bandwidth, serv
 What if you could do the validation on the client side, Today's javascript is already on steroids.
 
 It makes more sense to validate a file before uploading to the server. If an invalid file is supplied,
-we disable the upload and inform the user right away. So fast and simple.
+we disable the upload and inform the user right away. So fast and simple !!
 
 imgi, lets you do just that.
