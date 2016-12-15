@@ -1,0 +1,35 @@
+{
+  "name": "imgi",
+  "version": "0.0.1",
+  "description": "Imagine the scenario where your web application allows your user to upload an Image of 40MB, finally to find on your server side that its an INVALID image. We have lost bandwidth, server resources and time !",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepanprabhu/imgi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deepanprabhu/imgi/issues"
+  },
+  "homepage": "https://github.com/deepanprabhu/imgi#readme",
+  "devDependencies": {
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
+    "chai": "^3.5.0",
+    "karma": "^1.3.0",
+    "karma-browserify": "^5.1.0",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "mocha": "^3.2.0",
+    "watchify": "^3.7.0"
+  }
+}

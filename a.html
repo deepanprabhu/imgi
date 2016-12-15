@@ -27,9 +27,6 @@
 	        
 	        reader.onloadend = function(evt){
 	        	if(evt.target.readyState == FileReader.DONE){
-	        		alert(evt.target.result);
-	        	}
-
 	        	var u = new Uint8Array(evt.target.result);
 	        	var a = new Array(u.length);
 	        	var i = u.length;
@@ -38,6 +35,7 @@
 	        	u = null;
 	        	console.log(a);
 
+	        	}
 	        }
 	        var blob = file.slice(0,5);
 	        //reader.readAsBinaryString(blob);
@@ -46,7 +44,7 @@
 		}, false);
 		return null;
 	}
-	    validate("fileToUpload");
+	validate("fileToUpload");
 	</script>
 </form>
 
