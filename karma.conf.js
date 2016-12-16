@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: '.',
 
 
     // frameworks to use
@@ -16,9 +16,13 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'src/**/*.js',
-      'test/**/*.js'
+      'test/**/*.js',
+      'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.js',
+      {pattern:'test/test.jpg',watched:false, included:false, served:true}
     ],
 
+    proxies : {
+    },
 
     // list of files to exclude
     exclude: [
