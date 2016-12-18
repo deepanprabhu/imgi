@@ -1,3 +1,13 @@
+/*
+	Important reference documents,
+
+	http://lad.dsc.ufcg.edu.br/multimidia/jpegmarker.pdf
+	https://www.media.mit.edu/pia/Research/deepview/exif.html
+	http://dev.exiv2.org/projects/exiv2/wiki/The_Metadata_in_JPEG_files
+	http://dev.exiv2.org/projects/exiv2/wiki/The_Metadata_in_TIFF_files
+	https://github.com/exif-js/exif-js/blob/master/exif.js
+*/
+
 var EXIF = {};
 
 
@@ -30,6 +40,14 @@ function convertToHexArray(array){
 	while(i--)
 		a[i] = (u[i] < 16 ? '0' : '') + u[i].toString(16);
 	return a;
+}
+
+function readString(dataView, start, length) {
+	str = "";
+	while(length--){
+		str += toChar(dataView.getUint8(start++));
+	}
+	return str;
 }
 
 //	DataView, from exif-js. Excellent file handling
@@ -97,10 +115,21 @@ EXIF.validateEXIF = function(file, fileSize){
 				//	Process Markers
 				switch(markerValue){
 					case 0xFFE1:
+						//	APP1 marker, precedes EXIF or XMP
+						//	Info on XMP is at http://dev.exiv2.org/projects/exiv2/wiki/The_Metadata_in_JPEG_files
+						//	Info on EXIF, TIFF is at 
+						//	https://www.media.mit.edu/pia/Research/deepview/exif.html					
 						if(! processExif(dataView, markerOffset+4)) {
 							EXIF.processEXIF = false;
 							console.log("Unable to process EXIF");
-							//return false;
+						}
+						else{
+							break;
+						}
+						
+						if(! processXmp(dataView, markerOffset+4,sizeOfMarkerData-2)){
+							EXIF.processXMP = false;
+							console.log("Unable to process XMP");
 						}
 						break;
 				}
@@ -117,10 +146,12 @@ EXIF.validateEXIF = function(file, fileSize){
 		return true;
 	}
 
-	function processExif(dataView, dataOffset){
+	/*
+		dataOffsetAMS - Data offset After Marker and DataSize
+	*/
+	function processExif(dataView, dataOffsetAMS){
 		//	EXIF Header
-
-		if(dataView.getUint16(dataOffset) != 0x4578 || dataView.getUint16(dataOffset+2) != 0x6966){
+		if(dataView.getUint16(dataOffsetAMS) != 0x4578 || dataView.getUint16(dataOffsetAMS+2) != 0x6966){
 			EXIF.validEXIFHeader = false;
 			return false;
 		}
@@ -128,12 +159,33 @@ EXIF.validateEXIF = function(file, fileSize){
 		console.log("Valid EXIF Header");
 
 		//	TIFF Header
-		if(dataView.getUint16(dataOffset+6) != 0x4949 && dataView.getUint16(dataOffset+6) != 0x4d4d){
+		if(dataView.getUint16(dataOffsetAMS+6) != 0x4949 && dataView.getUint16(dataOffsetAMS+6) != 0x4d4d){
 			EXIF.validTIFFHeader = false;
 			return false;
 		}
 
 		console.log("Valid TIFF Header");
+		return true;
+	}
+
+	/*
+		dataOffsetAMS - Data offset After Marker and DataSize
+		dataLengthNoSize - Data size without including the size attribute
+	*/
+	function processXmp(dataView, dataOffsetAMS, dataLengthNoSize){
+		if(readString(dataView,dataOffsetAMS,28) != 'http:\/\/ns.adobe.com\/xap\/1.0\/'){
+			console.log("Invalid XMP identifier string");
+			return false;
+		}
+
+		var index = dataOffsetAMS+29, i = 0;
+		var xmlString = "";
+		while(i < dataLengthNoSize){
+			xmlString += toChar(dataView.getUint8(index))
+			index++;i++;
+		}
+		console.log("Printing XMP - XML Data");
+		console.log(xmlString);
 		return true;
 	}
 
