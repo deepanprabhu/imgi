@@ -19,7 +19,7 @@
 					var files = control.files;
 					var file = files[0];
 					var fileSize = files[0].size;
-					EXIF.validate(file, fileSize);
+					EXIF.validateEXIF(file, fileSize);
 				}, false);
 			}
 			validateFileById("fileToUpload");
